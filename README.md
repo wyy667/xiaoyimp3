@@ -29,7 +29,7 @@
 
 ```bash
 git clone https://github.com/wyy667/xiaoyimp3.git
-cd 小懿mp3外链盘
+cd /root/xiaoyimp3
 ```
 
 ### 2. 运行部署脚本
