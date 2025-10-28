@@ -1,0 +1,1640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食用教程 - 小懿MP3外链盘</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            color: #1a1a1a;
+            padding: 0 15px;
+            min-height: 100vh;
+        }
+
+        .page-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 1px solid rgba(26, 26, 26, 0.1);
+            border-radius: 12px;
+            text-decoration: none;
+            color: #1a1a1a;
+            font-size: 14px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateX(-3px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .page-header p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .example-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+        }
+
+        .example-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+        }
+
+        .example-desc {
+            font-size: 15px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
+        .example-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .preview-box {
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(26, 26, 26, 0.1);
+            border-radius: 14px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 180px;
+        }
+
+        .code-box {
+            background: #1a1a1a;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .code-lang {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            font-weight: 500;
+        }
+
+        .copy-btn {
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .code-content {
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        .code-content pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .label-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: rgba(26, 26, 26, 0.1);
+            border-radius: 6px;
+            font-size: 12px;
+            color: #666;
+            margin-top: 12px;
+        }
+
+        /* ==================== 华丽播放器样式 (已更新) ==================== */
+        
+        .player-preview {
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 50%, #d0d0d0 100%);
+            padding: 50px 0;
+            position: relative;
+            overflow: hidden;
+            min-height: 280px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hearts-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .heart, .ribbon {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            opacity: 0.3;
+            animation: float-up linear infinite;
+        }
+
+        .heart::before { content: '💓'; font-size: 28px; }
+        .ribbon::before { content: '🎀'; font-size: 28px; }
+        .heart:nth-child(1) { left: 10%; animation-duration: 10s; animation-delay: 0s; }
+        .heart:nth-child(2) { left: 30%; animation-duration: 12s; animation-delay: 2s; }
+        .heart:nth-child(3) { left: 50%; animation-duration: 9s; animation-delay: 1s; }
+        .heart:nth-child(4) { left: 70%; animation-duration: 11s; animation-delay: 3s; }
+        .heart:nth-child(5) { left: 85%; animation-duration: 13s; animation-delay: 4s; }
+        .ribbon:nth-child(6) { left: 15%; animation-duration: 9.5s; animation-delay: 1.5s; }
+        .ribbon:nth-child(7) { left: 45%; animation-duration: 11.5s; animation-delay: 3.5s; }
+        .ribbon:nth-child(8) { left: 65%; animation-duration: 8.5s; animation-delay: 2.5s; }
+        .ribbon:nth-child(9) { left: 90%; animation-duration: 10.5s; animation-delay: 0.8s; }
+
+        @keyframes float-up {
+            0% { bottom: -50px; opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { bottom: 110%; opacity: 0; }
+        }
+
+        .player-wrapper {
+            width: 100%;
+            max-width: 620px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* [MODIFIED] 播放器主体布局修改
+          从 2列grid 改为 flex-column，以容纳 封面/控制 + 歌词 + 频谱 
+        */
+        .luxury-player {
+            max-width: 550px; 
+            width: 100%;      
+            margin: 0 auto;
+            background: #ffffff; 
+            border-radius: 24px; 
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); 
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* 顶部/歌词/频谱之间的间距 */
+        }
+        
+        /* [NEW] 新增一个容器包裹 封面+控制
+          沿用之前的 2列grid 布局
+        */
+        .player-main-content {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .album-cover-wrap {
+            width: 140px;
+            height: 140px;
+            flex-shrink: 0;
+        }
+
+        .album-cover {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+            border: 4px solid rgba(255, 255, 255, 0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .album-cover:hover {
+            transform: scale(1.05);
+        }
+
+        .album-cover.playing {
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .player-right {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            min-height: 140px;
+            justify-content: space-between;
+            min-width: 0;
+        }
+
+        .song-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 17px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .song-info p {
+            margin: 0;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .time {
+            font-size: 11px;
+            color: #666;
+            font-weight: 500;
+            min-width: 38px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .progress {
+            flex: 1;
+            height: 5px;
+            background: rgba(26, 26, 26, 0.1);
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            min-width: 0;
+        }
+
+        .progress:hover {
+            height: 7px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: nowrap;
+        }
+
+        .control-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #ffffff;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .control-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            background: #fafafa;
+        }
+
+        .control-btn:active {
+            transform: scale(0.98);
+            background: #f0f0f0;
+        }
+
+        .control-btn.active {
+            background: #f5f5f5;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .play-btn {
+            width: 52px;
+            height: 52px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .icon {
+            width: 16px;
+            height: 16px;
+            fill: #000000;
+            stroke: #000000;
+        }
+
+        .play-btn .icon {
+            width: 22px;
+            height: 22px;
+        }
+
+        .player-toast {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(16, 185, 129, 0.95);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 500;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+            white-space: nowrap;
+            z-index: 10;
+        }
+
+        .player-toast.show {
+            opacity: 1;
+            top: -35px;
+        }
+
+        /* [NEW] 新增：歌词容器样式
+        */
+        .lyrics-container {
+            width: 100%;
+            height: 2.4em; /* 限制高度为一行半左右 */
+            line-height: 1.2em;
+            text-align: center;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #lyricsLine {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+            /* 简单的淡入淡出效果 */
+            transition: opacity 0.2s ease;
+        }
+
+        /* [NEW] 新增：频谱容器样式
+        */
+        .spectrum-container {
+            width: 100%;
+            height: 70px; /* 频谱高度 */
+            background: #f4f4f4;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #audioSpectrum {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+
+        /* ==================== 响应式布局 ==================== */
+        
+        @media (max-width: 900px) {
+            body { padding: 0 15px; }
+            .page-wrapper { padding: 32px 0; }
+            .page-header h1 { font-size: 28px; }
+            .example-content { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .player-preview { padding: 40px 0; min-height: 240px; }
+            .player-wrapper { max-width: 560px; padding: 0 15px; }
+        }
+
+        @media (max-width: 640px) {
+            .player-preview { padding: 35px 0; min-height: 220px; }
+            .player-wrapper { max-width: 500px; padding: 0 12px; }
+        }
+
+        @media (max-width: 540px) {
+            .player-preview { padding: 30px 0; min-height: 200px; }
+            .player-wrapper { max-width: 450px; padding: 0 10px; }
+        }
+
+        @media (max-width: 460px) {
+            .player-preview { padding: 25px 0; min-height: 180px; }
+            .player-wrapper { max-width: 400px; padding: 0 8px; }
+        }
+
+        @media (max-width: 400px) {
+            .player-preview { padding: 20px 0; min-height: 165px; }
+            .player-wrapper { max-width: 360px; padding: 0 5px; }
+        }
+
+        /* [MODIFIED] 响应式调整 
+          确保 .player-main-content 也能正确堆叠
+        */
+        @media (max-width: 420px) {
+            .player-main-content {
+                grid-template-columns: 1fr; /* 变为单列 */
+                gap: 20px;
+            }
+
+            .album-cover-wrap {
+                width: 120px;
+                height: 120px;
+                margin: 0 auto;
+            }
+
+            .player-right {
+                min-height: auto;
+                gap: 16px;
+                align-items: center;
+            }
+
+            .song-info { text-align: center; }
+            .progress-bar { width: 100%; }
+            .controls { justify-content: center; }
+
+            /* [NEW] 调整歌词和频谱 */
+            .lyrics-container { height: 2.4em; }
+            #lyricsLine { font-size: 14px; }
+            .spectrum-container { height: 60px; }
+        }
+
+        /* 代码高亮 */
+        .code-tag { color: #7dd3fc; }
+        .code-attr { color: #fbbf24; }
+        .code-value { color: #86efac; }
+        .code-comment { color: #9ca3af; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="page-wrapper">
+        <a href="/" class="back-home">
+            <svg style="width: 16px; height: 16px; margin-right: 6px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            返回主页
+        </a>
+
+        <div class="page-header">
+            <h1>MP3外链能做什么？</h1>
+            <p>将你的MP3文件嵌入到任何网页中，实现在线播放</p>
+        </div>
+
+        <!-- 示例1 ... 示例5 (保持不变) -->
+        
+        <!-- 示例1 -->
+        <div class="example-card">
+            <h3 class="example-title">1. 基础音频播放器</h3>
+            <p class="example-desc">使用 HTML5 audio 标签创建简单的音频播放器</p>
+            
+            <div class="example-content">
+                <div class="preview-box">
+                    <audio controls style="width: 100%; max-width: 400px;">
+                        <source src="https://mp3.xiaoyi.ink/uploads/1761628772676-y9isn78aunm.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+                
+                <div class="code-box">
+                    <div class="code-header">
+                        <span class="code-lang">HTML</span>
+                        <button class="copy-btn" onclick="copyCode(this, 'code1')">复制代码</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="code1"><span class="code-tag">&lt;audio</span> <span class="code-attr">controls</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;source</span> <span class="code-attr">src=</span><span class="code-value">"你的MP3外链地址"</span> <span class="code-attr">type=</span><span class="code-value">"audio/mpeg"</span><span class="code-tag">&gt;</span>
+  您的浏览器不支持音频播放
+<span class="code-tag">&lt;/audio&gt;</span></pre>
+                    </div>
+                </div>
+            </div>
+            <span class="label-tag">最基础的用法</span>
+        </div>
+
+        <!-- 示例2 -->
+        <div class="example-card">
+            <h3 class="example-title">2. 背景音乐（自动播放）</h3>
+            <p class="example-desc">网页加载时自动播放背景音乐，循环播放</p>
+            
+            <div class="example-content">
+                <div class="preview-box">
+                    <div style="text-align: center; color: #666;">
+                        <svg style="width: 64px; height: 64px; margin-bottom: 12px; opacity: 0.3;" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                        </svg>
+                        <p>音乐将在页面加载时自动播放</p>
+                    </div>
+                </div>
+                
+                <div class="code-box">
+                    <div class="code-header">
+                        <span class="code-lang">HTML</span>
+                        <button class="copy-btn" onclick="copyCode(this, 'code2')">复制代码</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="code2"><span class="code-tag">&lt;audio</span> <span class="code-attr">autoplay</span> <span class="code-attr">loop</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;source</span> <span class="code-attr">src=</span><span class="code-value">"你的MP3外链地址"</span> <span class="code-attr">type=</span><span class="code-value">"audio/mpeg"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;/audio&gt;</span>
+
+<span class="code-comment">&lt;!-- 属性说明 --&gt;</span>
+<span class="code-comment">&lt;!-- autoplay: 自动播放 --&gt;</span>
+<span class="code-comment">&lt;!-- loop: 循环播放 --&gt;</span></pre>
+                    </div>
+                </div>
+            </div>
+            <span class="label-tag">适合做背景音乐</span>
+        </div>
+
+        <!-- 示例3 -->
+        <div class="example-card">
+            <h3 class="example-title">3. 自定义样式播放器</h3>
+            <p class="example-desc">通过 CSS 美化音频播放器外观</p>
+            
+            <div class="example-content">
+                <div class="preview-box">
+                    <audio controls style="width: 100%; max-width: 400px; border-radius: 20px;">
+                        <source src="https://mp3.xiaoyi.ink/uploads/1761628772676-y9isn78aunm.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+                
+                <div class="code-box">
+                    <div class="code-header">
+                        <span class="code-lang">HTML + CSS</span>
+                        <button class="copy-btn" onclick="copyCode(this, 'code3')">复制代码</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="code3"><span class="code-tag">&lt;style&gt;</span>
+  .custom-audio {
+    width: 100%;
+    border-radius: 20px;
+  }
+<span class="code-tag">&lt;/style&gt;</span>
+
+<span class="code-tag">&lt;audio</span> <span class="code-attr">controls</span> <span class="code-attr">class=</span><span class="code-value">"custom-audio"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;source</span> <span class="code-attr">src=</span><span class="code-value">"你的MP3外链地址"</span> <span class="code-attr">type=</span><span class="code-value">"audio/mpeg"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;/audio&gt;</span></pre>
+                    </div>
+                </div>
+            </div>
+            <span class="label-tag">可自定义样式</span>
+        </div>
+
+        <!-- 示例4 -->
+        <div class="example-card">
+            <h3 class="example-title">4. JavaScript 控制播放</h3>
+            <p class="example-desc">使用 JavaScript 实现自定义控制按钮</p>
+            
+            <div class="example-content">
+                <div class="preview-box">
+                    <div style="text-align: center;">
+                        <audio id="myAudio" style="display: none;">
+                            <source src="https://mp3.xiaoyi.ink/uploads/1761628772676-y9isn78aunm.mp3" type="audio/mpeg">
+                        </audio>
+                        <button onclick="document.getElementById('myAudio').play()" style="padding: 12px 24px; margin: 0 8px; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); color: white; border: none; border-radius: 10px; cursor: pointer;">播放</button>
+                        <button onclick="document.getElementById('myAudio').pause()" style="padding: 12px 24px; margin: 0 8px; background: rgba(220, 38, 38, 0.1); color: #dc2626; border: 1px solid rgba(220, 38, 38, 0.2); border-radius: 10px; cursor: pointer;">暂停</button>
+                    </div>
+                </div>
+                
+                <div class="code-box">
+                    <div class="code-header">
+                        <span class="code-lang">HTML + JavaScript</span>
+                        <button class="copy-btn" onclick="copyCode(this, 'code4')">复制代码</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="code4"><span class="code-tag">&lt;audio</span> <span class="code-attr">id=</span><span class="code-value">"myAudio"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;source</span> <span class="code-attr">src=</span><span class="code-value">"你的MP3外链地址"</span> <span class="code-attr">type=</span><span class="code-value">"audio/mpeg"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;/audio&gt;</span>
+
+<span class="code-tag">&lt;button</span> <span class="code-attr">onclick=</span><span class="code-value">"document.getElementById('myAudio').play()"</span><span class="code-tag">&gt;</span>
+  播放
+<span class="code-tag">&lt;/button&gt;</span>
+
+<span class="code-tag">&lt;button</span> <span class="code-attr">onclick=</span><span class="code-value">"document.getElementById('myAudio').pause()"</span><span class="code-tag">&gt;</span>
+  暂停
+<span class="code-tag">&lt;/button&gt;</span></pre>
+                    </div>
+                </div>
+            </div>
+            <span class="label-tag">完全自定义控制</span>
+        </div>
+
+        <!-- 示例5 -->
+        <div class="example-card">
+            <h3 class="example-title">5. 预加载优化</h3>
+            <p class="example-desc">控制音频预加载行为，优化页面加载速度</p>
+            
+            <div class="example-content">
+                <div class="preview-box">
+                    <div style="text-align: center; color: #666;">
+                        <svg style="width: 64px; height: 64px; margin-bottom: 12px; opacity: 0.3;" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        <p>优化加载性能</p>
+                    </div>
+                </div>
+                
+                <div class="code-box">
+                    <div class="code-header">
+                        <span class="code-lang">HTML</span>
+                        <button class="copy-btn" onclick="copyCode(this, 'code5')">复制代码</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="code5"><span class="code-comment">&lt;!-- 不预加载 --&gt;</span>
+<span class="code-tag">&lt;audio</span> <span class="code-attr">controls</span> <span class="code-attr">preload=</span><span class="code-value">"none"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;source</span> <span class="code-attr">src=</span><span class="code-value">"你的MP3外链地址"</span> <span class="code-attr">type=</span><span class="code-value">"audio/mpeg"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;/audio&gt;</span>
+
+<span class="code-comment">&lt;!-- 预加载元数据 --&gt;</span>
+<span class="code-tag">&lt;audio</span> <span class="code-attr">controls</span> <span class="code-attr">preload=</span><span class="code-value">"metadata"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;source</span> <span class="code-attr">src=</span><span class="code-value">"你的MP3外链地址"</span> <span class="code-attr">type=</span><span class="code-value">"audio/mpeg"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;/audio&gt;</span>
+
+<span class="code-comment">&lt;!-- 完全预加载 --&gt;</span>
+<span class="code-tag">&lt;audio</span> <span class="code-attr">controls</span> <span class="code-attr">preload=</span><span class="code-value">"auto"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;source</span> <span class="code-attr">src=</span><span class="code-value">"你的MP3外链地址"</span> <span class="code-attr">type=</span><span class="code-value">"audio/mpeg"</span><span class="code-tag">&gt;</span>
+<span class="code-tag">&lt;/audio&gt;</span></pre>
+                    </div>
+                </div>
+            </div>
+            <span class="label-tag">性能优化</span>
+        </div>
+
+        <!-- 示例6：华丽播放器 (已更新) -->
+        <div class="example-card">
+            <h3 class="example-title">6. 终极版：带歌词和音频频谱的播放器</h3>
+            <p class="example-desc">在原版基础上，增加LRC歌词滚动和动态音频频谱</p>
+            
+            <div class="example-content" style="grid-template-columns: 1fr;">
+                <div class="player-preview">
+                    <!-- 漂浮背景 -->
+                    <div class="hearts-bg">
+                        <div class="heart"></div><div class="heart"></div><div class="heart"></div>
+                        <div class="heart"></div><div class="heart"></div><div class="ribbon"></div>
+                        <div class="ribbon"></div><div class="ribbon"></div><div class="ribbon"></div>
+                    </div>
+                    
+                    <!-- 播放器容器 -->
+                    <div class="player-wrapper">
+                        <!-- 
+                          [MODIFIED] 播放器主体结构已改变
+                          现在是 Flex 垂直布局
+                        -->
+                        <div class="luxury-player">
+                            <!-- 
+                              [MODIFIED] 增加了 crossorigin="anonymous" 
+                              这是实现频谱分析的关键！
+                              如果你的MP3服务器不支持CORS，频谱会失败。
+                            -->
+                            <audio id="luxuryAudio" src="https://mp3.xiaoyi.ink/uploads/1761628772676-y9isn78aunm.mp3" crossorigin="anonymous"></audio>
+                            
+                            <div class="player-toast" id="playerToast"></div>
+                            
+                            <!-- 
+                              [NEW] 包裹 封面+控制 的容器
+                              (沿用旧的 grid 布局)
+                            -->
+                            <div class="player-main-content">
+                                <!-- 左侧封面 -->
+                                <div class="album-cover-wrap">
+                                    <div class="album-cover" id="albumCover">
+                                        <img src="https://img.cdn1.vip/i/68fe356dbe35f_1761490285.webp" alt="专辑封面">
+                                    </div>
+                                </div>
+
+                                <!-- 右侧控制 -->
+                                <div class="player-right">
+                                    <!-- [MODIFIED] 歌曲信息更新 -->
+                                    <div class="song-info">
+                                        <h4>反方向的钟</h4>
+                                        <p>周杰伦 (Jay Chou)</p>
+                                    </div>
+
+                                    <div class="progress-bar">
+                                        <span class="time" id="currentTime">0:00</span>
+                                        <div class="progress" id="progressTrack">
+                                            <div class="progress-fill" id="progressFill"></div>
+                                        </div>
+                                        <span class="time" id="totalTime">0:00</span>
+                                    </div>
+
+                                    <div class="controls">
+                                        <button class="control-btn" id="loopBtn" title="循环">
+                                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                                <path d="M17 2l4 4-4 4M3 11V9a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v2a4 4 0 0 1-4 4H3"/>
+                                            </svg>
+                                        </button>
+                                        <button class="control-btn" id="backwardBtn" title="后退10秒">
+                                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="control-btn play-btn" id="playBtn" title="播放">
+                                            <svg class="icon" id="playIcon" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M8 5v14l11-7z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="control-btn" id="forwardBtn" title="快进10秒">
+                                            <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
+                                            </svg>
+                                        </button>
+                                        <button class="control-btn" id="volumeBtn" title="音量">
+                                            <svg class="icon" id="volumeIcon" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 
+                              [NEW] 新增歌词容器 
+                            -->
+                            <div class="lyrics-container">
+                                <p id="lyricsLine">[ 歌词加载中... ]</p>
+                            </div>
+
+                            <!-- 
+                              [NEW] 新增频谱画布
+                            -->
+                            <div class="spectrum-container">
+                                <canvas id="audioSpectrum"></canvas>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="code-box">
+                    <div class="code-header">
+                        <span class="code-lang">完整代码（歌词+频谱版）</span>
+                        <button class="copy-btn" onclick="copyCode(this, 'code6')">复制代码</button>
+                    </div>
+                    <div class="code-content">
+                        <pre id="code6"><span class="code-comment">&lt;!-- 
+  教程：这是“华丽播放器”的终极版，包含了歌词和音频频谱。
+  复制所有 HTML, CSS, JavaScript 到一个 .html 文件中即可运行。
+--&gt;</span>
+
+<span class="code-comment">&lt;!-- 
+  第一部分：HTML 结构 (播放器的骨架)
+  我们更新了结构，在 封面/控制区 下方增加了 歌词区 和 频谱区
+--&gt;</span>
+<span class="code-comment">&lt;!-- (可选) 演示背景板 --&gt;</span>
+<span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"player-preview"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"player-wrapper"</span><span class="code-tag">&gt;</span>
+      
+      <span class="code-comment">&lt;!-- 播放器主体 (布局已修改为 flex-column) --&gt;</span>
+      <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"luxury-player"</span><span class="code-tag">&gt;</span>
+      
+      <span class="code-comment">&lt;!-- 
+        核心1：audio 标签
+        !!! 重大变化：添加了 crossorigin="anonymous"
+        这是为了让音频频谱(Audio API)能够跨域读取音频数据。
+        如果你的音频服务器不支持CORS，频谱将无法工作。
+        !!! 把这里的 src 替换成你自己的 MP3 外链！
+      --&gt;</span>
+      <span class="code-tag">&lt;audio</span> <span class="code-attr">id=</span><span class="code-value">"luxuryAudio"</span> <span class="code-attr">src=</span><span class="code-value">"https://mp3.xiaoyi.ink/uploads/1761628772676-y9isn78aunm.mp3"</span> <span class="code-attr">crossorigin=</span><span class="code-value">"anonymous"</span><span class="code-tag">&gt;&lt;/audio&gt;</span>
+      
+      <span class="code-comment">&lt;!-- 辅助：提示框 --&gt;</span>
+      <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"player-toast"</span> <span class="code-attr">id=</span><span class="code-value">"playerToast"</span><span class="code-tag">&gt;&lt;/div&gt;</span>
+      
+      <span class="code-comment">&lt;!-- [新增] 顶部容器 (封面 + 控制) --&gt;</span>
+      <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"player-main-content"</span><span class="code-tag">&gt;</span>
+          <span class="code-comment">&lt;!-- 左侧封面 --&gt;</span>
+          <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"album-cover-wrap"</span><span class="code-tag">&gt;</span>
+              <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"album-cover"</span> <span class="code-attr">id=</span><span class="code-value">"albumCover"</span><span class="code-tag">&gt;</span>
+                  <span class="code-comment">&lt;!-- !!! 替换为你自己的封面图片 --&gt;</span>
+                  <span class="code-tag">&lt;img</span> <span class="code-attr">src=</span><span class="code-value">"https://img.cdn1.vip/i/68fe356dbe35f_1761490285.webp"</span> <span class="code-attr">alt=</span><span class="code-value">"专辑封面"</span><span class="code-tag">&gt;</span>
+              <span class="code-tag">&lt;/div&gt;</span>
+          <span class="code-tag">&lt;/div&gt;</span>
+
+          <span class="code-comment">&lt;!-- 右侧控制 --&gt;</span>
+          <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"player-right"</span><span class="code-tag">&gt;</span>
+              <span class="code-comment">&lt;!-- 歌曲信息 (改成你的歌名和歌手) --&gt;</span>
+              <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"song-info"</span><span class="code-tag">&gt;</span>
+                  <span class="code-tag">&lt;h4&gt;</span>反方向的钟<span class="code-tag">&lt;/h4&gt;</span>
+                  <span class="code-tag">&lt;p&gt;</span>周杰伦 (Jay Chou)<span class="code-tag">&lt;/p&gt;</span>
+              <span class="code-tag">&lt;/div&gt;</span>
+
+              <span class="code-comment">&lt;!-- 进度条 --&gt;</span>
+              <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"progress-bar"</span><span class="code-tag">&gt;</span>
+                  <span class="code-tag">&lt;span</span> <span class="code-attr">class=</span><span class="code-value">"time"</span> <span class="code-attr">id=</span><span class="code-value">"currentTime"</span><span class="code-tag">&gt;</span>0:00<span class="code-tag">&lt;/span&gt;</span>
+                  <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"progress"</span> <span class="code-attr">id=</span><span class="code-value">"progressTrack"</span><span class="code-tag">&gt;</span>
+                      <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"progress-fill"</span> <span class="code-attr">id=</span><span class="code-value">"progressFill"</span><span class="code-tag">&gt;&lt;/div&gt;</span>
+                  <span class="code-tag">&lt;/div&gt;</span>
+                  <span class="code-tag">&lt;span</span> <span class="code-attr">class=</span><span class="code-value">"time"</span> <span class="code-attr">id=</span><span class="code-value">"totalTime"</span><span class="code-tag">&gt;</span>0:00<span class="code-tag">&lt;/span&gt;</span>
+              <span class="code-tag">&lt;/div&gt;</span>
+
+              <span class="code-comment">&lt;!-- 控制按钮 --&gt;</span>
+              <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"controls"</span><span class="code-tag">&gt;</span>
+                  <span class="code-tag">&lt;button</span> <span class="code-attr">class=</span><span class="code-value">"control-btn"</span> <span class="code-attr">id=</span><span class="code-value">"loopBtn"</span> <span class="code-attr">title=</span><span class="code-value">"循环"</span><span class="code-tag">&gt;</span>...<span class="code-tag">&lt;/button&gt;</span>
+                  <span class="code-tag">&lt;button</span> <span class="code-attr">class=</span><span class="code-value">"control-btn"</span> <span class="code-attr">id=</span><span class="code-value">"backwardBtn"</span> <span class="code-attr">title=</span><span class="code-value">"后退10秒"</span><span class="code-tag">&gt;</span>...<span class="code-tag">&lt;/button&gt;</span>
+                  <span class="code-tag">&lt;button</span> <span class="code-attr">class=</span><span class="code-value">"control-btn play-btn"</span> <span class="code-attr">id=</span><span class="code-value">"playBtn"</span> <span class="code-attr">title=</span><span class="code-value">"播放"</span><span class="code-tag">&gt;</span>...<span class="code-tag">&lt;/button&gt;</span>
+                  <span class="code-tag">&lt;button</span> <span class="code-attr">class=</span><span class="code-value">"control-btn"</span> <span class="code-attr">id=</span><span class="code-value">"forwardBtn"</span> <span class="code-attr">title=</span><span class="code-value">"快进10秒"</span><span class="code-tag">&gt;</span>...<span class="code-tag">&lt;/button&gt;</span>
+                  <span class="code-tag">&lt;button</span> <span class="code-attr">class=</span><span class="code-value">"control-btn"</span> <span class="code-attr">id=</span><span class="code-value">"volumeBtn"</span> <span class="code-attr">title=</span><span class="code-value">"音量"</span><span class="code-tag">&gt;</span>...<span class="code-tag">&lt;/button&gt;</span>
+              <span class="code-tag">&lt;/div&gt;</span>
+          <span class="code-tag">&lt;/div&gt;</span>
+      <span class="code-tag">&lt;/div&gt;</span> <span class="code-comment">&lt;!-- 结束 .player-main-content --&gt;</span>
+
+      <span class="code-comment">&lt;!-- 
+        [新增] 歌词容器 
+      --&gt;</span>
+      <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"lyrics-container"</span><span class="code-tag">&gt;</span>
+          <span class="code-tag">&lt;p</span> <span class="code-attr">id=</span><span class="code-value">"lyricsLine"</span><span class="code-tag">&gt;</span>[ 歌词加载中... ]<span class="code-tag">&lt;/p&gt;</span>
+      <span class="code-tag">&lt;/div&gt;</span>
+
+      <span class="code-comment">&lt;!-- 
+        [新增] 音频频谱画布 (Canvas)
+        JS 将在这里绘制图形
+      --&gt;</span>
+      <span class="code-tag">&lt;div</span> <span class="code-attr">class=</span><span class="code-value">"spectrum-container"</span><span class="code-tag">&gt;</span>
+          <span class="code-tag">&lt;canvas</span> <span class="code-attr">id=</span><span class="code-value">"audioSpectrum"</span><span class="code-tag">&gt;&lt;/canvas&gt;</span>
+      <span class="code-tag">&lt;/div&gt;</span>
+      
+      <span class="code-tag">&lt;/div&gt;</span> <span class="code-comment">&lt;!-- 结束 .luxury-player --&gt;</span>
+  <span class="code-tag">&lt;/div&gt;</span>
+<span class="code-tag">&lt;/div&gt;</span>
+
+
+<span class="code-comment">&lt;!-- 
+  第二部分：CSS 样式 (播放器的皮肤)
+  我们更新了 .luxury-player 的布局，并增加了 .lyrics-container 和 .spectrum-container 的样式
+--&gt;</span>
+<span class="code-tag">&lt;style&gt;</span>
+  <span class="code-comment">/* ... (省略了 body, .player-preview, .hearts-bg 等未修改的样式) ... */</span>
+
+  <span class="code-comment">/* [MODIFIED] 播放器主体布局修改
+    从 2列grid 改为 flex-column，以容纳 封面/控制 + 歌词 + 频谱 
+  */</span>
+  .luxury-player {
+      max-width: 550px; 
+      width: 100%;      
+      margin: 0 auto;
+      background: #ffffff; 
+      border-radius: 24px; 
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); 
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px; <span class="code-comment">/* 顶部/歌词/频谱之间的间距 */</span>
+  }
+  
+  <span class="code-comment">/* [NEW] 新增一个容器包裹 封面+控制
+    沿用之前的 2列grid 布局
+  */</span>
+  .player-main-content {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 24px;
+      align-items: center;
+  }
+
+  <span class="code-comment">/* ... (省略了 .album-cover, .player-right, .controls 等未修改的样式) ... */</span>
+
+  <span class="code-comment">/* [NEW] 新增：歌词容器样式
+  */</span>
+  .lyrics-container {
+      width: 100%;
+      height: 2.4em; <span class="code-comment">/* 限制高度为一行半左右 */</span>
+      line-height: 1.2em;
+      text-align: center;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+
+  #lyricsLine {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 500;
+      color: #333;
+      transition: opacity 0.2s ease; <span class="code-comment">/* 淡入淡出 */</span>
+  }
+
+  <span class="code-comment">/* [NEW] 新增：频谱容器样式
+  */</span>
+  .spectrum-container {
+      width: 100%;
+      height: 70px; <span class="code-comment">/* 频谱高度 */</span>
+      background: #f4f4f4;
+      border-radius: 10px;
+      overflow: hidden;
+  }
+
+  #audioSpectrum {
+      width: 100%;
+      height: 100%;
+      display: block;
+  }
+
+  <span class="code-comment">/* [MODIFIED] 响应式调整 */</span>
+  @media (max-width: 420px) {
+      .player-main-content {
+          grid-template-columns: 1fr; <span class="code-comment">/* 变为单列 */</span>
+          gap: 20px;
+      }
+      .album-cover-wrap {
+          width: 120px;
+          height: 120px;
+          margin: 0 auto;
+      }
+      .player-right {
+          min-height: auto;
+          gap: 16px;
+          align-items: center;
+      }
+      .song-info { text-align: center; }
+      .progress-bar { width: 100%; }
+      .controls { justify-content: center; }
+
+      <span class="code-comment">/* [NEW] 调整歌词和频谱 */</span>
+      .lyrics-container { height: 2.4em; }
+      #lyricsLine { font-size: 14px; }
+      .spectrum-container { height: 60px; }
+  }
+<span class="code-tag">&lt;/style&gt;</span>
+
+
+<span class="code-comment">&lt;!-- 
+  第三部分：JavaScript 逻辑 (播放器的大脑)
+  这是改动最大的地方！我们增加了歌词解析和 Web Audio API
+--&gt;</span>
+<span class="code-tag">&lt;script&gt;</span>
+  <span class="code-comment">// === 1. 获取所有需要操作的 HTML 元素 ===
+  // (注意：这里我们只展示“华丽播放器”的JS)
+  // (为了防止和页面上其他JS冲突，我们把所有变量
+  //  包裹在一个立即执行函数 (IIFE) 中，
+  //  但实际复制使用时，你不需要这个外层包裹)
+  */</span>
+  <span class="code-comment">// (function() { // 实际使用时不需要这层</span>
+  
+      <span class="code-comment">// --- 原有元素 ---
+      // (为了防止与全局脚本冲突，真实教程代码块中应获取新的)
+      // (在当前页面演示中，我们复用全局的)
+      /*
+      const audio = document.getElementById('luxuryAudio');
+      const albumCover = document.getElementById('albumCover');
+      const playIcon = document.getElementById('playIcon');
+      const toast = document.getElementById('playerToast');
+      const progressFill = document.getElementById('progressFill');
+      const currentTime = document.getElementById('currentTime');
+      const totalTime = document.getElementById('totalTime');
+      const progressTrack = document.getElementById('progressTrack');
+      const loopBtn = document.getElementById('loopBtn');
+      const volumeBtn = document.getElementById('volumeBtn');
+      */</span>
+
+      <span class="code-comment">// --- [新增] 歌词和频谱相关元素 ---
+      const lyricsLine = document.getElementById('lyricsLine');
+      const canvas = document.getElementById('audioSpectrum');
+      const canvasCtx = canvas.getContext('2d');
+
+      <span class="code-comment">// --- [新增] 歌词数据 ---
+      const lrcString = `[00:00.00]反方向的钟 - 周杰伦 (Jay Chou)
+[00:04.32]词：方文山
+[00:08.64]曲：周杰伦
+[00:12.96]编曲：周杰伦
+[00:17.28]合声：周杰伦
+[00:21.61]合声编写：周杰伦
+[00:25.93]ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏ
+[00:30.90]ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐ
+[00:35.93]ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏ
+[00:41.02]ㄅㄆㄇㄈㄉㄊㄋㄌ
+[00:45.85]迷迷蒙蒙 你给的梦
+[00:48.36]出现裂缝 隐隐作痛
+[00:50.93]怎么沟通你都没空
+[00:53.38]说我不懂 说了没用
+[00:55.99]他的笑容 有何不同
+[00:58.53]在你心中 我不再受宠
+[01:01.18]我的天空 是雨是风 还是彩虹
+[01:04.87]你在操纵
+[01:06.77]恨自己真的没用情绪激动
+[01:11.82]一颗心到现在还在抽痛
+[01:16.62]还为分手前那句抱歉在感动
+[01:26.68]穿梭时间的画面的钟
+[01:31.72]从反方向 开始移动
+[01:36.84]回到当初爱你的时空
+[01:41.93]停格内容 不忠
+[01:46.91]所有回忆对着我进攻
+[01:52.05]我的伤口 被你拆封
+[01:57.15]誓言太沉重泪被纵容
+[02:02.17]脸上汹涌 失控
+[02:17.39]城市霓虹 不安跳动
+[02:18.74]染红夜空 过去种种
+[02:20.20]像一场梦 不敢去碰
+[02:21.59]一想就痛 心碎内容
+[02:22.86]每一秒钟 都有不同
+[02:24.17]你不懂 连一句珍重
+[02:25.69]也有苦衷 也不想送
+[02:27.13]寒风中 废墟烟囱
+[02:28.24]停止转动 一切落空
+[02:29.60]在人海中盲目跟从
+[02:31.08]别人的梦 全面放纵
+[02:32.44]恨没有用 疗伤止痛
+[02:33.67]不再感动 没有梦
+[02:35.05]痛不知轻重
+[02:35.83]泪水鲜红 全面放纵
+[02:48.14]恨自己真的没用情绪激动
+[02:53.29]一颗心到现在还在抽痛
+[02:58.02]还为分手前那句抱歉在感动
+[03:08.19]穿梭时间的画面的钟
+[03:13.22]从反方向 开始移动
+[03:18.32]回到当初爱你的时空
+[03:23.33]停格内容 不忠
+[03:28.46]所有回忆对着我进攻
+[03:33.52]我的伤口 被你拆封
+[03:38.58]誓言太沉重泪被纵容
+[03:43.67]脸上汹涌 失控
+[03:48.72]穿梭时间的画面的钟
+[03:53.78]从反方向 开始移动
+[03:58.84]回到当初爱你的时空
+[04:03.96]停格内容 不忠
+[04:09.00]所有回忆对着我进攻`;
+      
+      let lrcData = []; <span class="code-comment">// 存放解析后的歌词对象数组</span>
+      let currentLrcIndex = -1; <span class="code-comment">// 当前歌词行索引</span>
+
+      <span class="code-comment">// --- [新增] 音频 API 变量 ---
+      let audioContext;
+      let analyser;
+      let sourceNode;
+      let dataArray;
+      let isAudioAPIInit = false; <span class="code-comment">// 确保只初始化一次</span>
+      let bufferLength;
+
+      <span class="code-comment">// === 2. 封装常用功能函数 ===</span>
+      
+      <span class="code-comment">// (已有 showToast, formatTime 函数...此处省略)</span>
+      
+      <span class="code-comment">/**
+       * [新增] LRC 歌词解析函数
+       * @param {string} lrc - 原始LRC字符串
+       * @returns {Array} 解析后的对象数组
+       */</span>
+      function parseLRC(lrc) {
+          const lines = lrc.split('\n');
+          const result = [];
+          const timeRegex = /\[(\d{2}):(\d{2})\.(\d{2,3})\](.*)/;
+
+          for (const line of lines) {
+              const match = line.match(timeRegex);
+              if (match) {
+                  const minutes = parseInt(match[1], 10);
+                  const seconds = parseInt(match[2], 10);
+                  const milliseconds = parseInt(match[3].padEnd(3, '0'), 10);
+                  const time = minutes * 60 + seconds + milliseconds / 1000;
+                  const text = match[4].trim() || '...'; <span class="code-comment">// 处理空歌词</span>
+                  result.push({ time, text });
+              }
+          }
+          <span class="code-comment">// 按时间排序，确保歌词顺序正确</span>
+          return result.sort((a, b) => a.time - b.time);
+      }
+
+      <span class="code-comment">/**
+       * [新增] 更新歌词函数
+       * @param {number} currentTime - 音频当前播放时间 (秒)
+       */</span>
+      function updateLyrics(currentTime) {
+          if (!lrcData.length) return;
+
+          <span class="code-comment">// 寻找当前应该高亮的行</span>
+          let newIndex = -1;
+          for (let i = 0; i < lrcData.length; i++) {
+              if (currentTime >= lrcData[i].time) {
+                  newIndex = i;
+              } else {
+                  break; <span class="code-comment">// 因为已排序，后面的都不符</span>
+              }
+          }
+
+          if (newIndex !== currentLrcIndex) {
+              currentLrcIndex = newIndex;
+              const newText = lrcData[currentLrcIndex] ? lrcData[currentLrcIndex].text : '&nbsp;';
+              
+              <span class="code-comment">// 简单的淡入淡出效果</span>
+              lyricsLine.style.opacity = 0;
+              setTimeout(() => {
+                  lyricsLine.innerHTML = newText;
+                  lyricsLine.style.opacity = 1;
+              }, 150); <span class="code-comment">// 150ms 后切换</span>
+          }
+      }
+
+      <span class="code-comment">/**
+       * [新增] 初始化音频 API (频谱)
+       * 必须在用户交互（如点击）后调用
+       */</span>
+      function initAudioAPI() {
+          if (isAudioAPIInit) return; <span class="code-comment">// 防止重复初始化</span>
+
+          try {
+              audioContext = new (window.AudioContext || window.webkitAudioContext)();
+              
+              <span class="code-comment">// 1. 创建分析器</span>
+              analyser = audioContext.createAnalyser();
+              analyser.fftSize = 256; <span class="code-comment">// 频域点数 (必须是2的幂)</span>
+              bufferLength = analyser.frequencyBinCount; <span class="code-comment">// = fftSize / 2</span>
+              dataArray = new Uint8Array(bufferLength); <span class="code-comment">// 存放频率数据的数组</span>
+
+              <span class="code-comment">// 2. 创建音频源 (!!! 依赖 <audio> 上的 crossorigin="anonymous")</span>
+              sourceNode = audioContext.createMediaElementSource(document.getElementById('luxuryAudio'));
+
+              <span class="code-comment">// 3. 连接节点： 音频源 -> 分析器 -> 扬声器</span>
+              sourceNode.connect(analyser);
+              analyser.connect(audioContext.destination);
+
+              isAudioAPIInit = true;
+              
+              <span class="code-comment">// 4. 设置画布大小并开始绘制</span>
+              resizeCanvas();
+              drawSpectrum();
+              
+          } catch (e) {
+              console.error('初始化音频频谱失败 (可能是CORS问题):', e);
+              lyricsLine.innerHTML = '[ 音频频谱加载失败 ]';
+          }
+      }
+      
+      <span class="code-comment">/**
+       * [新增] 画布尺寸调整 (处理高DPI屏幕)
+       */</span>
+      function resizeCanvas() {
+          canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+          canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+      }
+      
+      <span class="code-comment">// 监听窗口大小变化，重设画布</span>
+      window.addEventListener('resize', resizeCanvas);
+
+
+      <span class="code-comment">/**
+       * [新增] 绘制频谱函数 (动画循环)
+       */</span>
+      function drawSpectrum() {
+          <span class="code-comment">// 循环调用自身，创建动画</span>
+          requestAnimationFrame(drawSpectrum);
+
+          if (!isAudioAPIInit || !analyser) return;
+
+          <span class="code-comment">// 1. 获取当前帧的频率数据</span>
+          analyser.getByteFrequencyData(dataArray);
+
+          <span class="code-comment">// 2. 清空画布</span>
+          canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+
+          const barWidth = (canvas.width / bufferLength) * 1.2;
+          let x = 0;
+
+          <span class="code-comment">// 3. 创建渐变色 (匹配进度条)</span>
+          const gradient = canvasCtx.createLinearGradient(0, 0, 0, canvas.height);
+          gradient.addColorStop(0, '#764ba2'); <span class="code-comment">// 顶部颜色</span>
+          gradient.addColorStop(1, '#667eea'); <span class="code-comment">// 底部颜色
+          canvasCtx.fillStyle = gradient;
+
+          <span class="code-comment">// 4. 循环绘制每一根柱子</span>
+          for (let i = 0; i < bufferLength; i++) {
+              <span class="code-comment">// dataArray[i] 是 0-255 的值, 转换成高度</span>
+              const barHeight = (dataArray[i] / 255) * canvas.height;
+              
+              <span class="code-comment">// (x, y, width, height)</span>
+              canvasCtx.fillRect(
+                  x, 
+                  canvas.height - barHeight, <span class="code-comment">// 从底部开始画</span>
+                  barWidth, 
+                  barHeight
+              );
+
+              x += barWidth + 1; <span class="code-comment">// 柱子间距</span>
+          }
+      }
+
+      <span class="code-comment">// === 3. 绑定事件监听 (部分修改) ===</span>
+
+      <span class="code-comment">// --- [MODIFIED] 播放/暂停 核心功能 ---</span>
+      document.getElementById('playBtn').addEventListener('click', () => {
+          <span class="code-comment">// !!! 关键：在用户首次点击时初始化 Audio API</span>
+          if (!isAudioAPIInit) {
+              initAudioAPI();
+          }
+          
+          <span class="code-comment">// (修复 AudioContext 在某些浏览器的自动暂停策略)</span>
+          if (audioContext && audioContext.state === 'suspended') {
+              audioContext.resume();
+          }
+          
+          const audio = document.getElementById('luxuryAudio');
+          if (audio.paused) {
+              audio.play();
+              document.getElementById('albumCover').classList.add('playing');
+              document.getElementById('playIcon').innerHTML = '&lt;rect x="6" y="4" width="4" height="16"/&gt;&lt;rect x="14" y="4" width="4" height="16"/&gt;';
+              showToast('正在播放');
+          } else {
+              audio.pause();
+              document.getElementById('albumCover').classList.remove('playing');
+              document.getElementById('playIcon').innerHTML = '&lt;path d="M8 5v14l11-7z"/&gt;';
+              showToast('已暂停');
+          }
+      });
+      
+      <span class="code-comment">// --- (其他按钮事件... 此处省略) ---</span>
+
+      <span class="code-comment">// --- [MODIFIED] 监听 audio 播放进度 ---</span>
+      document.getElementById('luxuryAudio').addEventListener('timeupdate', () => {
+          const audio = document.getElementById('luxuryAudio');
+          const progress = (audio.currentTime / audio.duration) * 100;
+          document.getElementById('progressFill').style.width = progress + '%';
+          document.getElementById('currentTime').textContent = formatTime(audio.currentTime);
+
+          <span class="code-comment">// === [新增] 调用歌词更新 ===</span>
+          updateLyrics(audio.currentTime);
+      });
+
+      <span class="code-comment">// --- (loadedmetadata, progressTrack 事件... 此处省略) ---</span>
+
+      <span class="code-comment">// === 4. [新增] 页面加载后立即执行 ===
+      
+      <span class="code-comment">// 1. 解析歌词</span>
+      lrcData = parseLRC(lrcString);
+      lyricsLine.innerHTML = lrcData.length > 0 ? lrcData[0].text : '歌词加载完毕';
+
+      <span class="code-comment">// 2. 调整画布初始大小 (在 API 初始化时也会调用)</span>
+      <span class="code-comment">// resizeCanvas();
+      
+  <span class="code-comment">// })(); // 实际使用时不需要这层</span>
+<span class="code-tag">&lt;/script&gt;</span></pre>
+                    </div>
+                </div>
+            </div>
+            <span class="label-tag">终极版 - 开箱即用</span>
+        </div>
+    </div>
+
+    <script>
+        // (全局脚本)
+        // 为了让页面上的所有示例都能工作，
+        // 我们需要确保函数和变量不会相互冲突。
+        // 第6区的脚本被特别封装和修改，以包含新功能。
+
+        // --- 示例1-5 和 复制代码 功能 ---
+        function copyCode(btn, codeId) {
+            const codeEl = document.getElementById(codeId);
+            let code = codeEl.textContent || codeEl.innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = btn.textContent;
+                btn.textContent = '已复制';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                }, 2000);
+            }).catch(err => {
+                console.error('复制失败: ', err);
+            });
+        }
+        
+        // --- 示例 6 (华丽播放器) 的专属脚本 ---
+        
+        // 我们将第6区的所有逻辑包裹起来，防止污染全局
+        (function() {
+            // 获取第6区专属的元素
+            const audio = document.getElementById('luxuryAudio');
+            if (!audio) return; // 如果不在这个页面，则退出
+            
+            const albumCover = document.getElementById('albumCover');
+            const playIcon = document.getElementById('playIcon');
+            const toast = document.getElementById('playerToast');
+            const progressFill = document.getElementById('progressFill');
+            const currentTime = document.getElementById('currentTime');
+            const totalTime = document.getElementById('totalTime');
+            const progressTrack = document.getElementById('progressTrack');
+            const loopBtn = document.getElementById('loopBtn');
+            const volumeBtn = document.getElementById('volumeBtn');
+            
+            // --- [新增] 歌词和频谱相关元素 ---
+            const lyricsLine = document.getElementById('lyricsLine');
+            const canvas = document.getElementById('audioSpectrum');
+            const canvasCtx = canvas.getContext('2d');
+
+            // --- [新增] 歌词数据 ---
+            const lrcString = `[00:00.00]反方向的钟 - 周杰伦 (Jay Chou)
+[00:04.32]词：方文山
+[00:08.64]曲：周杰伦
+[00:12.96]编曲：周杰伦
+[00:17.28]合声：周杰伦
+[00:21.61]合声编写：周杰伦
+[00:25.93]ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏ
+[00:30.90]ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏㄐ
+[00:35.93]ㄅㄆㄇㄈㄉㄊㄋㄌㄍㄎㄏ
+[00:41.02]ㄅㄆㄇㄈㄉㄊㄋㄌ
+[00:45.85]迷迷蒙蒙 你给的梦
+[00:48.36]出现裂缝 隐隐作痛
+[00:50.93]怎么沟通你都没空
+[00:53.38]说我不懂 说了没用
+[00:55.99]他的笑容 有何不同
+[00:58.53]在你心中 我不再受宠
+[01:01.18]我的天空 是雨是风 还是彩虹
+[01:04.87]你在操纵
+[01:06.77]恨自己真的没用情绪激动
+[01:11.82]一颗心到现在还在抽痛
+[01:16.62]还为分手前那句抱歉在感动
+[01:26.68]穿梭时间的画面的钟
+[01:31.72]从反方向 开始移动
+[01:36.84]回到当初爱你的时空
+[01:41.93]停格内容 不忠
+[01:46.91]所有回忆对着我进攻
+[01:52.05]我的伤口 被你拆封
+[01:57.15]誓言太沉重泪被纵容
+[02:02.17]脸上汹涌 失控
+[02:17.39]城市霓虹 不安跳动
+[02:18.74]染红夜空 过去种种
+[02:20.20]像一场梦 不敢去碰
+[02:21.59]一想就痛 心碎内容
+[02:22.86]每一秒钟 都有不同
+[02:24.17]你不懂 连一句珍重
+[02:25.69]也有苦衷 也不想送
+[02:27.13]寒风中 废墟烟囱
+[02:28.24]停止转动 一切落空
+[02:29.60]在人海中盲目跟从
+[02:31.08]别人的梦 全面放纵
+[02:32.44]恨没有用 疗伤止痛
+[02:33.67]不再感动 没有梦
+[02:35.05]痛不知轻重
+[02:35.83]泪水鲜红 全面放纵
+[02:48.14]恨自己真的没用情绪激动
+[02:53.29]一颗心到现在还在抽痛
+[02:58.02]还为分手前那句抱歉在感动
+[03:08.19]穿梭时间的画面的钟
+[03:13.22]从反方向 开始移动
+[03:18.32]回到当初爱你的时空
+[03:23.33]停格内容 不忠
+[03:28.46]所有回忆对着我进攻
+[03:33.52]我的伤口 被你拆封
+[03:38.58]誓言太沉重泪被纵容
+[03:43.67]脸上汹涌 失控
+[03:48.72]穿梭时间的画面的钟
+[03:53.78]从反方向 开始移动
+[03:58.84]回到当初爱你的时空
+[04:03.96]停格内容 不忠
+[04:09.00]所有回忆对着我进攻`;
+            
+            let lrcData = [];
+            let currentLrcIndex = -1;
+
+            // --- [新增] 音频 API 变量 ---
+            let audioContext;
+            let analyser;
+            let sourceNode;
+            let dataArray;
+            let isAudioAPIInit = false;
+            let bufferLength;
+
+            // === 基础功能函数 ===
+            function showToast(msg) {
+                toast.textContent = msg;
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            }
+
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+
+            // === [新增] LRC 歌词解析 ===
+            function parseLRC(lrc) {
+                const lines = lrc.split('\n');
+                const result = [];
+                const timeRegex = /\[(\d{2}):(\d{2})\.(\d{2,3})\](.*)/;
+                for (const line of lines) {
+                    const match = line.match(timeRegex);
+                    if (match) {
+                        const time = parseInt(match[1], 10) * 60 + parseInt(match[2], 10) + parseInt(match[3].padEnd(3, '0'), 10) / 1000;
+                        const text = match[4].trim() || '...';
+                        result.push({ time, text });
+                    }
+                }
+                return result.sort((a, b) => a.time - b.time);
+            }
+
+            // === [新增] 更新歌词 ===
+            function updateLyrics(currentTime) {
+                if (!lrcData.length) return;
+                let newIndex = -1;
+                for (let i = 0; i < lrcData.length; i++) {
+                    if (currentTime >= lrcData[i].time) {
+                        newIndex = i;
+                    } else {
+                        break;
+                    }
+                }
+                if (newIndex !== currentLrcIndex) {
+                    currentLrcIndex = newIndex;
+                    const newText = lrcData[currentLrcIndex] ? lrcData[currentLrcIndex].text : '&nbsp;';
+                    lyricsLine.style.opacity = 0;
+                    setTimeout(() => {
+                        lyricsLine.innerHTML = newText;
+                        lyricsLine.style.opacity = 1;
+                    }, 150);
+                }
+            }
+
+            // === [新增] 初始化音频 API (频谱) ===
+            function initAudioAPI() {
+                if (isAudioAPIInit) return;
+                try {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    analyser = audioContext.createAnalyser();
+                    analyser.fftSize = 256;
+                    bufferLength = analyser.frequencyBinCount;
+                    dataArray = new Uint8Array(bufferLength);
+                    sourceNode = audioContext.createMediaElementSource(audio);
+                    sourceNode.connect(analyser);
+                    analyser.connect(audioContext.destination);
+                    isAudioAPIInit = true;
+                    resizeCanvas();
+                    drawSpectrum();
+                } catch (e) {
+                    console.error('初始化音频频谱失败:', e);
+                    lyricsLine.innerHTML = '[ 音频频谱加载失败(CORS) ]';
+                }
+            }
+            
+            // === [新增] 画布尺寸调整 ===
+            function resizeCanvas() {
+                if (!canvas) return;
+                canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+                canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+            }
+            window.addEventListener('resize', resizeCanvas);
+
+            // === [新增] 绘制频谱函数 (动画循环) ===
+            function drawSpectrum() {
+                requestAnimationFrame(drawSpectrum);
+                if (!isAudioAPIInit || !analyser) return;
+
+                analyser.getByteFrequencyData(dataArray);
+                canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                const barWidth = (canvas.width / bufferLength) * 1.2;
+                let x = 0;
+                
+                const gradient = canvasCtx.createLinearGradient(0, 0, 0, canvas.height);
+                gradient.addColorStop(0, '#764ba2');
+                gradient.addColorStop(1, '#667eea');
+                canvasCtx.fillStyle = gradient;
+
+                for (let i = 0; i < bufferLength; i++) {
+                    const barHeight = (dataArray[i] / 255) * canvas.height;
+                    canvasCtx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+                    x += barWidth + 1;
+                }
+            }
+
+            // === 事件监听 ===
+            document.getElementById('playBtn').addEventListener('click', () => {
+                if (!isAudioAPIInit) {
+                    initAudioAPI();
+                }
+                if (audioContext && audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+                if (audio.paused) {
+                    audio.play();
+                    albumCover.classList.add('playing');
+                    playIcon.innerHTML = '<rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/>';
+                    showToast('正在播放');
+                } else {
+                    audio.pause();
+                    albumCover.classList.remove('playing');
+                    playIcon.innerHTML = '<path d="M8 5v14l11-7z"/>';
+                    showToast('已暂停');
+                }
+            });
+
+            document.getElementById('backwardBtn').addEventListener('click', () => {
+                audio.currentTime -= 10;
+                showToast('后退 10 秒');
+            });
+
+            document.getElementById('forwardBtn').addEventListener('click', () => {
+                audio.currentTime += 10;
+                showToast('快进 10 秒');
+            });
+
+            loopBtn.addEventListener('click', () => {
+                audio.loop = !audio.loop;
+                if (audio.loop) {
+                    loopBtn.classList.add('active');
+                    showToast('已开启单曲循环');
+                } else {
+                    loopBtn.classList.remove('active');
+                    showToast('已关闭循环');
+                }
+            });
+
+            volumeBtn.addEventListener('click', () => {
+                audio.muted = !audio.muted;
+                const icon = document.getElementById('volumeIcon');
+                if (audio.muted) {
+                    icon.innerHTML = '<path d="M16.5 12a4.5 4.5 0 0 0-1.77-3.55l-.68.68c.55.46.95 1.07 1.07 1.78h1.38zM12 4L9.91 6.09 12 8.18V4zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>';
+                    showToast('已静音');
+                } else {
+                    icon.innerHTML = '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>';
+                    showToast('已取消静音');
+                }
+            });
+
+            audio.addEventListener('timeupdate', () => {
+                const progress = (audio.currentTime / audio.duration) * 100;
+                progressFill.style.width = progress + '%';
+                currentTime.textContent = formatTime(audio.currentTime);
+                // [MODIFIED] 调用歌词更新
+                updateLyrics(audio.currentTime);
+            });
+
+            audio.addEventListener('loadedmetadata', () => {
+                totalTime.textContent = formatTime(audio.duration);
+            });
+
+            progressTrack.addEventListener('click', (e) => {
+                const rect = progressTrack.getBoundingClientRect();
+                const percent = (e.clientX - rect.left) / rect.width;
+                audio.currentTime = percent * audio.duration;
+            });
+
+            // === [新增] 页面加载后立即执行 ===
+            lrcData = parseLRC(lrcString);
+            lyricsLine.innerHTML = lrcData.length > 0 ? lrcData[0].text : '歌词加载完毕';
+            // 初始画布大小
+            resizeCanvas();
+
+        })(); // 结束第6区的专属脚本
+
+    </script>
+</body>
+</html>
+

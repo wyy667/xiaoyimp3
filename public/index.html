@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小懿MP3外链盘</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="upload-card glass">
+            <h1 class="title">小懿MP3外链盘</h1>
+            <p class="subtitle">上传你的MP3文件，获取在线播放链接</p>
+            
+            <div class="upload-area" id="uploadArea">
+                <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <p class="upload-text">点击或拖拽MP3文件到这里</p>
+                <p class="upload-hint">仅支持MP3格式，最大5MB</p>
+                <input type="file" id="fileInput" accept=".mp3" hidden>
+            </div>
+
+            <div class="progress-container" id="progressContainer" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p class="progress-text" id="progressText">上传中...</p>
+            </div>
+        </div>
+
+        <a href="/tutorial.html" class="tutorial-link">
+            <span>mp3外链能做什么？</span>
+            <svg style="width: 16px; height: 16px; margin-left: 6px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- 弹窗 -->
+    <div class="modal" id="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h2>上传成功</h2>
+                <button class="close-btn" id="closeBtn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-filename" id="modalFilename"></p>
+                <div class="url-container">
+                    <input type="text" class="url-input" id="urlInput" readonly>
+                    <button class="copy-btn" id="copyBtn">复制链接</button>
+                </div>
+                <p class="modal-hint">此链接可直接在网页、APP中播放</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 公告弹窗 -->
+    <div class="modal" id="announcementModal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h2>公告</h2>
+                <button class="close-btn" id="announcementCloseBtn" disabled>&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="announcementContent" style="white-space: pre-wrap; line-height: 1.8; color: #1a1a1a;"></p>
+                <p class="modal-hint" id="announcementTimer">请阅读公告 (3秒)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提示消息 -->
+    <div class="toast" id="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

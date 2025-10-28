@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理后台 - MP3外链盘</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .login-card {
+            max-width: 420px;
+            margin: 0 auto;
+            border-radius: 24px;
+            padding: 40px;
+        }
+
+        .login-title {
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 32px;
+            color: #1a1a1a;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #1a1a1a;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid rgba(26, 26, 26, 0.2);
+            border-radius: 12px;
+            font-size: 15px;
+            background: rgba(255, 255, 255, 0.5);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1a1a1a;
+            background: rgba(255, 255, 255, 0.7);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            margin-top: 12px;
+        }
+
+        .login-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(26, 26, 26, 0.3);
+        }
+
+        .login-btn:active {
+            transform: scale(0.98);
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .back-link:hover {
+            color: #1a1a1a;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .admin-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .logout-btn:hover {
+            background: rgba(220, 38, 38, 0.2);
+            transform: scale(1.05);
+        }
+
+        .files-container {
+            border-radius: 20px;
+            padding: 24px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .files-stats {
+            margin-bottom: 24px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(26, 26, 26, 0.1);
+        }
+
+        .stats-item {
+            display: inline-block;
+            margin-right: 24px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stats-value {
+            font-weight: 600;
+            color: #1a1a1a;
+            font-size: 20px;
+            margin-left: 8px;
+        }
+
+        .file-item {
+            padding: 18px;
+            margin-bottom: 12px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid rgba(26, 26, 26, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .file-item:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateX(4px);
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 500;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+            word-break: break-all;
+        }
+
+        .file-meta {
+            font-size: 13px;
+            color: #999;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+            margin-left: 16px;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            white-space: nowrap;
+        }
+
+        .play-btn {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .play-btn:hover {
+            background: rgba(16, 185, 129, 0.2);
+            transform: scale(1.05);
+        }
+
+        .delete-btn {
+            background: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+        }
+
+        .delete-btn:hover {
+            background: rgba(220, 38, 38, 0.2);
+            transform: scale(1.05);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            opacity: 0.3;
+        }
+
+        @media (max-width: 768px) {
+            .file-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .file-actions {
+                margin-left: 0;
+                margin-top: 12px;
+                width: 100%;
+            }
+
+            .action-btn {
+                flex: 1;
+            }
+
+            .stats-item {
+                display: block;
+                margin-bottom: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 登录界面 -->
+    <div id="loginView" class="container">
+        <div class="login-card glass">
+            <h1 class="login-title">管理员登录</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">用户名</label>
+                    <input type="text" class="form-input" id="username" required autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">密码</label>
+                    <input type="password" class="form-input" id="password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="login-btn">登录</button>
+            </form>
+            <a href="/" class="back-link">返回主页</a>
+        </div>
+    </div>
+
+    <!-- 管理界面 -->
+    <div id="adminView" class="admin-container" style="display: none;">
+        <div class="admin-header">
+            <h1 class="admin-title">管理后台</h1>
+            <button class="logout-btn" id="logoutBtn">退出登录</button>
+        </div>
+
+        <!-- 公告管理 -->
+        <div class="announcement-container glass" style="margin-bottom: 24px; border-radius: 20px; padding: 24px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3);">
+            <h2 style="font-size: 20px; font-weight: 600; color: #1a1a1a; margin-bottom: 20px;">公告管理</h2>
+            <div style="margin-bottom: 16px;">
+                <label style="display: flex; align-items: center; color: #1a1a1a; font-size: 14px; font-weight: 500; margin-bottom: 12px;">
+                    <input type="checkbox" id="announcementEnabled" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                    启用公告
+                </label>
+                <textarea id="announcementInput" placeholder="输入公告内容..." style="width: 100%; min-height: 120px; padding: 14px 18px; border: 1px solid rgba(26, 26, 26, 0.2); border-radius: 12px; font-size: 14px; background: rgba(255, 255, 255, 0.5); resize: vertical; font-family: inherit; line-height: 1.6;"></textarea>
+            </div>
+            <button id="saveAnnouncementBtn" style="padding: 12px 28px; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                保存公告
+            </button>
+            <p style="margin-top: 12px; font-size: 13px; color: #999;">提示: 启用公告后，用户访问主页时将会弹出公告，3秒后可关闭</p>
+        </div>
+
+        <!-- 限流设置 -->
+        <div class="ratelimit-container glass" style="margin-bottom: 24px; border-radius: 20px; padding: 24px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3);">
+            <h2 style="font-size: 20px; font-weight: 600; color: #1a1a1a; margin-bottom: 20px;">上传限流设置</h2>
+            <div style="margin-bottom: 16px;">
+                <label style="display: flex; align-items: center; color: #1a1a1a; font-size: 14px; font-weight: 500; margin-bottom: 16px;">
+                    <input type="checkbox" id="rateLimitEnabled" style="margin-right: 8px; width: 18px; height: 18px; cursor: pointer;">
+                    启用上传限流
+                </label>
+                <div id="rateLimitConfig" style="margin-left: 26px;">
+                    <label style="display: block; color: #1a1a1a; font-size: 14px; font-weight: 500; margin-bottom: 8px;">
+                        每60分钟允许上传次数
+                    </label>
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <input type="number" id="maxUploads" min="1" max="999" value="3" style="width: 120px; padding: 10px 14px; border: 1px solid rgba(26, 26, 26, 0.2); border-radius: 10px; font-size: 14px; background: rgba(255, 255, 255, 0.5);">
+                        <span style="color: #666; font-size: 14px;">次</span>
+                    </div>
+                </div>
+            </div>
+            <button id="saveRateLimitBtn" style="padding: 12px 28px; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                保存设置
+            </button>
+            <p style="margin-top: 12px; font-size: 13px; color: #999;">提示: 关闭限流后，所有IP可以无限制上传（测试时使用）</p>
+        </div>
+
+        <!-- 文件大小设置 -->
+        <div class="filesize-container glass" style="margin-bottom: 24px; border-radius: 20px; padding: 24px; background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.3);">
+            <h2 style="font-size: 20px; font-weight: 600; color: #1a1a1a; margin-bottom: 20px;">文件大小限制</h2>
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; color: #1a1a1a; font-size: 14px; font-weight: 500; margin-bottom: 8px;">
+                    最大文件大小
+                </label>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <input type="number" id="maxFileSize" min="1" max="100" value="5" style="width: 120px; padding: 10px 14px; border: 1px solid rgba(26, 26, 26, 0.2); border-radius: 10px; font-size: 14px; background: rgba(255, 255, 255, 0.5);">
+                    <span style="color: #666; font-size: 14px;">MB</span>
+                </div>
+            </div>
+            <button id="saveFileSizeBtn" style="padding: 12px 28px; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); color: white; border: none; border-radius: 12px; cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+                保存设置
+            </button>
+            <p style="margin-top: 12px; font-size: 13px; color: #999;">提示: 支持1-100MB，修改后前端提示和验证会同步更新</p>
+        </div>
+
+        <div class="files-container glass">
+            <h2 style="font-size: 20px; font-weight: 600; color: #1a1a1a; margin-bottom: 20px;">文件管理</h2>
+            <div class="files-stats">
+                <span class="stats-item">
+                    总文件数<span class="stats-value" id="totalFiles">0</span>
+                </span>
+                <span class="stats-item">
+                    总大小<span class="stats-value" id="totalSize">0 MB</span>
+                </span>
+            </div>
+
+            <div id="filesList"></div>
+        </div>
+    </div>
+
+    <!-- 提示消息 -->
+    <div class="toast" id="toast"></div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
+

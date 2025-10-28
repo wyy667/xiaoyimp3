@@ -1,0 +1,12 @@
+{
+  "admin": {
+    "username": "xiaoyi",
+    "password": "$2a$10$ZN1De55o5l3UKOoyR81f2eaEzsKP6qy.TXa.dsCcuLBjM6Q5HsvBy"
+  },
+  "port": 3000,
+  "rateLimit": {
+    "enabled": true,
+    "maxUploads": 5
+  },
+  "maxFileSize": 10
+}
