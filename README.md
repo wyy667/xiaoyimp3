@@ -28,7 +28,7 @@
 ### 1. 克隆项目
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/wyy667/xiaoyimp3.git
 cd 小懿mp3外链盘
 ```
 
